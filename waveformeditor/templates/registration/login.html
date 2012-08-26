@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block content %}
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+
+                <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <!-- Be sure to leave the brand out there if you want it shown -->
+                <a class="brand" href="#">Logowanie</a>
+
+                <!-- Everything you want hidden at 940px or less, place within here -->
+                <div class="nav-collapse">
+                    <ul class="nav pull-right">
+
+                        <li class="divider-vertical"></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.email }}<b
+                                class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/accounts/logout/">Wyloguj</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% if form.errors %}
+        <p>Twój login nie istnieje, spróbuj jeszcze raz.</p>
+    {% endif %}
+
+    <form class='form-horizontal' method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+        <div class="control-group">
+            <label class="control-label" >Nazwa użytkownika</label>
+            <div class="controls">
+                {{ form.username }}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" >Hasło</label>
+            <div class="controls">
+                {{ form.password }}
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+
+                <button type="submit" class="btn">Zaloguj</button>
+            </div>
+        </div>
+
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+{% endblock %}

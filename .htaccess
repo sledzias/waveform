@@ -1,0 +1,18 @@
+#DirectoryIndex main.html
+
+SetHandler mod_python
+
+# dodatkowe ścieżki do naszej instalacji - bezpieczny odpowiednik PYTHONPATH
+PythonPath "['/home/mslazins/python', '/home/mslazins/domains/waveformeditor.com/waveform'] + sys.path"
+
+# wskazujemy ścieżki, w których może być umieszczony moduł handlera, w przypadku, #kiedy nie ma go w standardowym sys.path
+PythonOption mod_python.importer.path "['/home/mslazins/python']+ sys.path"
+PythonHandler django.core.handlers.modpython
+# poniższą linię odkomentować tylko na czas sprawdzenia instalacji
+PythonDebug On
+
+# ustawienia naszej aplikacji
+SetEnv DJANGO_SETTINGS_MODULE waveform.settings
+
+# konieczne dla zzipowanych paczek .egg
+SetEnv PYTHON_EGG_CACHE /home/mslazins/opt/tmp/egg-cache

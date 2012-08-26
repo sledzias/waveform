@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+
+    <title>{% block title %}Edytor układów logicznych{% endblock %}</title>
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!--    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">-->
+
+    <!--    <script type="text/css" src="bootstrap/css/bootstrap-responsive.css"></script>-->
+
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/underscore.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/backbone.js"></script>
+    <!--   <script type="text/javascript" src="kinetic-v3.8.1.js"></script>    -->
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/kinetic-v3.10.5.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/logic.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/jquery-ui-1.8.20.custom.min.js"></script>
+  {% endblock %}
+</head>
+
+<body>
+
+
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+{% csrf_token %}
+<script type='text/javascript'>
+    // Setup $.ajax to always send an X-CSRFToken header:
+    var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+    $(document).ajaxSend(function(e, xhr, settings) {
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+    });
+</script>
+</body>
+
+</html>
