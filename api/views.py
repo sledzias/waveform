@@ -6,31 +6,31 @@ from waveformeditor.resources import CircuitResource
 
 class RestrictToUserMixin(ModelMixin):
     """
-    Mixin that restricts users to working with their own data
+    Mixin powodujacy, ze uzytkownicy maja dostep tylko do swoich danych
     """
     def get_queryset(self):
         """
-        Only return objects created by the currently authenticated user.
+        zwraca obiekty nalezace do zalogowanego uzytkownika
         """
         return self.resource.model.objects.filter(created_by=self.user)
 
     def get_instance_data(self, model, content, **kwargs):
         """
-        Set the created_by field to the currently authenticated user.
+        ustawia pole created_by na zalogowanego uzytkownika
         """
         content['created_by'] = self.user
         return super(RestrictToUserMixin, self).get_instance_data(model, content, **kwargs)
 
 class CircuitListView(RestrictToUserMixin, ListOrCreateModelView):
     """
-    List view for Password objects.
+    widok listy dla schematow
     """
     resource = CircuitResource
     permissions = (IsAuthenticated, )
 
 class CircuitInstanceView(RestrictToUserMixin, InstanceModelView):
     """
-    View for individual Password instances
+    widok dla konkretnego schematu
     """
     resource = CircuitResource
     permissions = (IsAuthenticated, )

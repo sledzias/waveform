@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-# Create your models here.
 class Circuit(models.Model):
+    """
+    Model dokumentu przechowujacego schemat ukladu logicznego
+    """
     created_by = models.ForeignKey(User, related_name='+', editable=False)
     data = models.TextField()
     title = models.CharField(max_length=100)

@@ -1,184 +1,185 @@
-
 {% extends "base.html" %}
 
 {% block head %}
     {{ block.super }}
     <script type="text/template" id="CircuitItemTemplate">
 
-            <td>
-                <a href="/circuits/<%= id %>"><%= title %></a>
-            </td>
-            <td><%= date_helper(pub_date) %></td>
-             <td><%= date_helper(edit_date) %></td>
-            <td><button class="btn btn-danger destroy" type="button">Usuń</button></td>
-
+        <td>
+            <a href="/circuits/<%= id %>"><%= title %></a>
+        </td>
+        <td><%= date_helper(pub_date) %></td>
+        <td><%= date_helper(edit_date) %></td>
+        <td>
+            <button class="btn btn-danger destroy" type="button">Usuń</button>
+        </td>
 
 
     </script>
 
     <script type="text/javascript">
-    var date_helper = function (dateStr) {
-        var now = new Date;
-        try {
-            var date = new Date(dateStr);
-        }
-        catch (e) {
-            return 'data nieokreślona'
-        }
-        if (date.getDate() == now.getDate() && date.getMonth() == now.getMonth() && date.getFullYear() == now.getFullYear()) {
-            return  'Dzisiaj o ' + date.getHours() + '.' + date.getMinutes().toString().replace(/^(\d)$/, '0$1');
-        }
-        else {
-            return  date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' o ' + date.getHours() + '.' + date.getMinutes().toString().replace(/^(\d)$/, '0$1');
-        }
-        return date;
-    };
-    $(function(){
-        var Circuit = Backbone.Model.extend({});
-        var CircuitView = Backbone.View.extend({
-            tagName : 'tr',
-            events : {
-                'click .destroy' : 'remove'
-            },
-            remove : function(event){
-                event.stopImmediatePropagation();
-                event.preventDefault();
-                if (confirm("Na pewno chcesz usunąć ten schemat?")) {
-                    this.model.destroy();
-                }
-            },
-            template :_.template($('#CircuitItemTemplate').html()),
-            render : function(){
-
-                this.$el.html(this.template(this.model.toJSON()));
-                return this;
+        var date_helper = function (dateStr) {
+            var now = new Date;
+            try {
+                var date = new Date(dateStr);
             }
-        });
-        var CircuitsCollection = Backbone.Collection.extend({
-            url : '/api/1.0/circuits'
-        });
-
-        var CircuitsListView = Backbone.View.extend({
-            tagName : 'tbody',
-            initialize : function(){
-                this.circuits = new CircuitsCollection();
-                this.circuits.bind('all',this.render, this);
-                this.circuits.fetch();
-            },
-            render: function() {
-                this.$el.html('');
-                this.circuits.each(this.addOne, this);
-                console.log(this.circuits);
-                return this;
-            },
-            addOne: function(circuit) {
-                console.log('add one');
-                this.$el.append(new CircuitView({model: circuit}).render().el);
-                return this;
-            },
-
-            addNew: function(circuit) {
-                this.circuits.create(circuit, {
-                    wait : true,
-                    error : function(response){
-                        if (response.status == 403) {
-                            alert("Nie masz uprawnień aby utworzyć nowy schemat");
-                        }
-                        else {
-                            alert("Nie można było stworzyć nowego schematu");
-                        }
+            catch (e) {
+                return 'data nieokreślona'
+            }
+            if (date.getDate() == now.getDate() && date.getMonth() == now.getMonth() && date.getFullYear() == now.getFullYear()) {
+                return  'Dzisiaj o ' + date.getHours() + '.' + date.getMinutes().toString().replace(/^(\d)$/, '0$1');
+            }
+            else {
+                return  date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' o ' + date.getHours() + '.' + date.getMinutes().toString().replace(/^(\d)$/, '0$1');
+            }
+            return date;
+        };
+        $(function () {
+            var Circuit = Backbone.Model.extend({});
+            var CircuitView = Backbone.View.extend({
+                tagName:'tr',
+                events:{
+                    'click .destroy':'remove'
+                },
+                remove:function (event) {
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                    if (confirm("Na pewno chcesz usunąć ten schemat?")) {
+                        this.model.destroy();
                     }
-                });
-                return this;
-            }
+                },
+                template:_.template($('#CircuitItemTemplate').html()),
+                render:function () {
+
+                    this.$el.html(this.template(this.model.toJSON()));
+                    return this;
+                }
+            });
+            var CircuitsCollection = Backbone.Collection.extend({
+                url:'/api/1.0/circuits'
+            });
+
+            var CircuitsListView = Backbone.View.extend({
+                tagName:'tbody',
+                initialize:function () {
+                    this.circuits = new CircuitsCollection();
+                    this.circuits.bind('all', this.render, this);
+                    this.circuits.fetch();
+                },
+                render:function () {
+                    this.$el.html('');
+                    this.circuits.each(this.addOne, this);
+                    console.log(this.circuits);
+                    return this;
+                },
+                addOne:function (circuit) {
+                    console.log('add one');
+                    this.$el.append(new CircuitView({model:circuit}).render().el);
+                    return this;
+                },
+
+                addNew:function (circuit) {
+                    this.circuits.create(circuit, {
+                        wait:true,
+                        error:function (response) {
+                            if (response.status == 403) {
+                                alert("Nie masz uprawnień aby utworzyć nowy schemat");
+                            }
+                            else {
+                                alert("Nie można było stworzyć nowego schematu");
+                            }
+                        }
+                    });
+                    return this;
+                }
 
 
+            });
+
+            var AppView = Backbone.View.extend({
+                el:'#app',
+                events:{
+                    'click #newCircuitBtn':'addNewCircuit'
+                },
+
+                initialize:function () {
+                    this.circuitsList = new CircuitsListView({app:this});
+
+                },
+                render:function () {
+
+                    this.$el.find('table').append(this.circuitsList.render().el);
+
+                },
+                addNewCircuit:function () {
+                    var data = {
+                        data:' ',
+
+                        title:this.$('#newCircuitTitle').val() || 'Nowy schemat'
+
+                    };
+                    this.circuitsList.addNew(data);
+                }
+
+            });
+            var app = new AppView();
+            app.render();
         });
-
-        var AppView = Backbone.View.extend({
-            el: '#app',
-            events : {
-              'click #newCircuitBtn' : 'addNewCircuit'
-            },
-
-            initialize : function(){
-                this.circuitsList = new CircuitsListView({app: this});
-
-            },
-            render: function() {
-
-                this.$el.find('table').append(this.circuitsList.render().el);
-
-            },
-            addNewCircuit : function(){
-                var data = {
-                    data : ' ',
-
-                    title : this.$('#newCircuitTitle').val() || 'Nowy schemat'
-
-                };
-                this.circuitsList.addNew(data);
-            }
-
-        });
-        var app = new AppView();
-        app.render();
-    });
 
     </script>
 
 {% endblock %}
 
 {% block content %}
-   <div id="app" >
-       <div class="navbar">
-           <div class="navbar-inner">
-               <div class="container">
+    <div id="app">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
 
-                   <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-                   <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                       <span class="icon-bar"></span>
-                       <span class="icon-bar"></span>
-                       <span class="icon-bar"></span>
-                   </a>
+                    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
 
-                   <!-- Be sure to leave the brand out there if you want it shown -->
-                   <a class="brand" href="#">Twoje schematy</a>
+                    <!-- Be sure to leave the brand out there if you want it shown -->
+                    <a class="brand" href="#">Twoje schematy</a>
 
-                   <!-- Everything you want hidden at 940px or less, place within here -->
-                   <div class="nav-collapse">
-                       <form class="navbar-form pull-left  ">
-                           <input type='text' placeholder="Tytuł" id="newCircuitTitle">
-                           <button type='button' class="btn btn-primary" id="newCircuitBtn">Dodaj nowy schemat</button>
-                       </form>
-                       <ul class="nav pull-right">
+                    <!-- Everything you want hidden at 940px or less, place within here -->
+                    <div class="nav-collapse">
+                        <form class="navbar-form pull-left  ">
+                            <input type='text' placeholder="Tytuł" id="newCircuitTitle">
+                            <button type='button' class="btn btn-primary" id="newCircuitBtn">Dodaj nowy schemat</button>
+                        </form>
+                        <ul class="nav pull-right">
 
-                           <li class="divider-vertical"></li>
-                           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.email }}<b
-                                   class="caret"></b></a>
-                               <ul class="dropdown-menu">
-                                   <li><a href="/accounts/logout/">Wyloguj</a></li>
+                            <li class="divider-vertical"></li>
+                            <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                    data-toggle="dropdown">{{ user.email }}<b
+                                    class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/accounts/logout/">Wyloguj</a></li>
 
-                               </ul>
-                           </li>
-                       </ul>
-                   </div>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
 
-               </div>
-           </div>
-       </div>
+                </div>
+            </div>
+        </div>
 
-   <table class="table">
-       <thead>
-       <th>Nazwa</th>
-       <th>Data utworzenia</th>
-       <th>Data ostatniej modyfikacji</th>
-       <th></th>
-       </thead>
-
-
-   </table>
+        <table class="table">
+            <thead>
+            <th>Nazwa</th>
+            <th>Data utworzenia</th>
+            <th>Data ostatniej modyfikacji</th>
+            <th></th>
+            </thead>
 
 
-   </div>
+        </table>
+
+
+    </div>
 {% endblock %}
