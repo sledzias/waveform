@@ -7,22 +7,13 @@
 
 
     <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
-    <!--    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">-->
-
-    <!--    <script type="text/css" src="bootstrap/css/bootstrap-responsive.css"></script>-->
-
     <script type="text/javascript" src="{{ STATIC_URL }}libs/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}libs/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}libs/backbone.js"></script>
-    <!--   <script type="text/javascript" src="kinetic-v3.8.1.js"></script>    -->
     <script type="text/javascript" src="{{ STATIC_URL }}libs/kinetic-v3.10.5.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}libs/logic.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}libs/jquery-ui-1.8.20.custom.min.js"></script>
-    <!--<scripthttp://www.youtube.com/watch?v=F6ZfA5QZDHY type="text/javascript" src="jCanvaScript.js"></script>    -->
-
-
-
     <style type="text/css">
         .Gate, .Gate:hover {
             width: 100px;
@@ -34,22 +25,27 @@
         }
 
         .Gate[gate=And] {
-            background: url({{ STATIC_URL }}img/gates/and.png) no-repeat ;
+            background: url({{ STATIC_URL }}img/gates/and.png) no-repeat;
         }
+
         .Gate[gate=Nand] {
-            background: url({{ STATIC_URL }}img/gates/nand.png) no-repeat ;
+            background: url({{ STATIC_URL }}img/gates/nand.png) no-repeat;
         }
+
         .Gate[gate=Nor] {
-            background: url({{ STATIC_URL }}img/gates/nor.png) no-repeat ;
+            background: url({{ STATIC_URL }}img/gates/nor.png) no-repeat;
         }
+
         .Gate[gate=Xor] {
-            background: url({{ STATIC_URL }}img/gates/xor.png) no-repeat ;
+            background: url({{ STATIC_URL }}img/gates/xor.png) no-repeat;
         }
+
         .Gate[gate=Nxor] {
-            background: url({{ STATIC_URL }}img/gates/nxor.png) no-repeat ;
+            background: url({{ STATIC_URL }}img/gates/nxor.png) no-repeat;
         }
+
         .Gate[gate=Not] {
-            background: url({{ STATIC_URL }}img/gates/not.png) no-repeat ;
+            background: url({{ STATIC_URL }}img/gates/not.png) no-repeat;
         }
 
         .Gate[gate=Or] {
@@ -62,12 +58,20 @@
 
         .Gate[gate=Bulb] {
             background: url({{ STATIC_URL }}img/gates/bulb.png) no-repeat;
+            height: 66px;
         }
+
         .Gate[gate=High] {
             background: url({{ STATIC_URL }}img/gates/high.png) no-repeat;
         }
+
         .Gate[gate=Low] {
             background: url({{ STATIC_URL }}img/gates/low.png) no-repeat;
+        }
+
+        a[rel=tooltip] {
+            display: inline-block;
+            width: 100px;
         }
     </style>
 </head>
@@ -84,8 +88,11 @@
                 </li>
 
                 <li><a href="#" class='' id="removeSellectedBtn"><i class=' icon-trash icon-white'></i> Usuń</a></li>
-                <li><a href="#" class='' id="rotateLeftBtn" ><i class='icon-repeat icon-white' style="-webkit-transform:scaleX(-1); -moz-transform: scaleX(-1);-o-transform: scaleX(-1)"></i> Obróć w lewo</a></li>
-                <li><a href="#" class='' id="rotateRightBtn" ><i class='icon-repeat icon-white'></i> Obróć w prawo</a></li>
+                <li><a href="#" class='' id="rotateLeftBtn"><i class='icon-repeat icon-white'
+                                                               style="-webkit-transform:scaleX(-1); -moz-transform: scaleX(-1);-o-transform: scaleX(-1)"></i>
+                    Obróć w lewo</a></li>
+                <li><a href="#" class='' id="rotateRightBtn"><i class='icon-repeat icon-white'></i> Obróć w prawo</a>
+                </li>
 
 
                 <li><a href="#">Pokaż/ukryj siatkę <input type="checkbox" id="gridCheckbox" checked="checked"></a></li>
@@ -113,18 +120,52 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">
+            <p>Bramki logiczne</p>
 
-            <div class="Gate" gate="And"></div>
-            <div class="Gate" gate="Or"></div>
-            <div class="Gate" gate="Nand"></div>
-            <div class="Gate" gate="Nor"></div>
-            <div class="Gate" gate="Xor"></div>
-            <div class="Gate" gate="Nxor"></div>
-            <div class="Gate" gate="Not"></div>
-            <div class="Gate" gate="Switch"></div>
-            <div class="Gate" gate="Bulb"></div>
-            <div class="Gate" gate="High"></div>
-            <div class="Gate" gate="Low"></div>
+            <div>
+                <a href="#" rel="tooltip" title="Bramka iloczynu logicznego AND">
+                    <div class="Gate" gate="And"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Bramka sumy logicznej OR">
+                    <div class="Gate" gate="Or"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Bramka NAND">
+                    <div class="Gate" gate="Nand"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Bramka NOR">
+                    <div class="Gate" gate="Nor"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Bramka XOR">
+                    <div class="Gate" gate="Xor"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Bramka NXOR">
+                    <div class="Gate" gate="Nxor"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Bramka negacji NOT">
+                    <div class="Gate" gate="Not"></div>
+                </a>
+            </div>
+            <p>Wejście</p>
+
+            <div>
+                <a href="#" rel="tooltip" title="Wysoki poziom logiczny">
+                    <div class="Gate" gate="High"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Niski poziom logiczny">
+                    <div class="Gate" gate="Low"></div>
+                </a>
+                <a href="#" rel="tooltip" title="Przełącznik">
+                    <div class="Gate" gate="Switch"></div>
+                </a>
+            </div>
+            <p>Wyjście</p>
+
+            <div>
+                <a href="#" rel="tooltip" title="Żarówka">
+                    <div class="Gate" gate="Bulb"></div>
+                </a>
+
+            </div>
 
 
             <!--Sidebar content-->
@@ -144,12 +185,11 @@
 </body>
 
 
-
 <script type="text/javascript">
     var workflow = new logicjs.Workflow({
         container:'container',
-        width: 1500,
-        height: 1000});
+        width:1500,
+        height:1000});
     $(document).ready(function () {
 
 
@@ -168,35 +208,36 @@
                 var y = ui.offset.top - $(this).offset().top + $(this).scrollTop();
 
                 var gateType = ui.draggable.attr('gate');
-                console.log(gateType);
 
-                     workflow.addGate({x:x, y:y},gateType);
 
+                workflow.addGate({x:x, y:y}, gateType);
 
 
             }
         });
 
-        $('#removeSellectedBtn').click(function(){
+        $('#removeSellectedBtn').click(function () {
             workflow.deleteSelectedItems();
         });
 
-        $('#rotateLeftBtn').click(function(){
+        $('#rotateLeftBtn').click(function () {
             workflow.rotateLeftSelectedItems();
         });
 
-        $('#rotateRightBtn').click(function(){
+        $('#rotateRightBtn').click(function () {
             workflow.rotateRightSelectedItems();
         });
 
-        $('#gridCheckbox').change(function(){
-           if($(this).is(':checked')){
-               $('#container').css('backgroundImage', "url('{{ STATIC_URL }}img/grid_10.png')");
-           }
-           else{
-               $('#container').css('backgroundImage', '');
-           }
+        $('#gridCheckbox').change(function () {
+            if ($(this).is(':checked')) {
+                $('#container').css('backgroundImage', "url('{{ STATIC_URL }}img/grid_10.png')");
+            }
+            else {
+                $('#container').css('backgroundImage', '');
+            }
         });
+
+        $('a[rel=tooltip]').tooltip();
 
 
     });
@@ -206,68 +247,67 @@
 
 <script type="text/javascript">
     var CircuitModel = Backbone.Model.extend({
-        defaults: {
-            "data":  [],
-            "title":     "Nowy układ logiczny",
-            "pub_date":    new Date()
+        defaults:{
+            "data":[],
+            "title":"Nowy układ logiczny",
+            "pub_date":new Date()
         },
-        urlRoot : '/api/1.0/circuits/',
-        idAttribute: "id"
+        urlRoot:'/api/1.0/circuits/',
+        idAttribute:"id"
     });
 
     var CircuitView = Backbone.View.extend({
-        events : {
-            'click #saveBtn' : 'saveCircuit',
-            'click #removeBtn' : 'removeCircuit'
+        events:{
+            'click #saveBtn':'saveCircuit',
+            'click #removeBtn':'removeCircuit'
         },
-        el : $('#circuitApp'),
-       initialize : function(){
-           console.log(this.model.get('data'));
-           var that = this;
-           this.model.fetch({success : function(){
+        el:$('#circuitApp'),
+        initialize:function () {
+
+            var that = this;
+            this.model.fetch({success:function () {
                 try {
                     workflow.load(that.model.get('data'));
                 }
-               catch(e){
+                catch (e) {
 
-                   workflow.load((new logicjs.Workflow({
-                       container:'container',
-                       width: 1500,
-                       height: 1000})).toJSON());
-               }
-           }});
+                    workflow.load((new logicjs.Workflow({
+                        container:'container',
+                        width:1500,
+                        height:1000})).toJSON());
+                }
+            }});
 
-           _.bindAll(this,'saveCircuit');
-       },
+            _.bindAll(this, 'saveCircuit');
+        },
 
-        saveCircuit : function(e){
+        saveCircuit:function (e) {
             e.preventDefault();
-            this.model.set('data',workflow.toJSON());
-            console.log(this.model.get('data'));
-            this.model.save({'pub_date' : '2012-12-12'},{
-                success:function(){
+            this.model.set('data', workflow.toJSON());
+
+            this.model.save({'pub_date':'2012-12-12'}, {
+                success:function () {
                     alert('zapisano');
                 },
-                error:function(model, response){
-                if (response.status == 403) {
-                    alert("Nie masz uprawnień aby zapisać ten plik");
-                }
-                else {
-                    alert("Nie możnabyło zapisać pliku");
-                }
+                error:function (model, response) {
+                    if (response.status == 403) {
+                        alert("Nie masz uprawnień aby zapisać ten plik");
+                    }
+                    else {
+                        alert("Nie możnabyło zapisać pliku");
+                    }
                 }
             });
         },
-        removeCircuit: function(event) {
+        removeCircuit:function (event) {
             event.stopImmediatePropagation();
             event.preventDefault();
-            if (confirm("Na pewno chcesz usunąć ten schemat?"))
-            {
+            if (confirm("Na pewno chcesz usunąć ten schemat?")) {
                 this.model.destroy({
-                    success : function(){
+                    success:function () {
                         window.location.href = '/circuits/'
                     },
-                    error : function(model, response){
+                    error:function (model, response) {
                         if (response.status == 403) {
                             alert("Nie masz uprawnień aby usunąć ten plik");
                         }
@@ -282,11 +322,11 @@
 
     });
 
-    var circuitView = new CircuitView({model : new CircuitModel( {id : {{circuit.id|safe}} })});
+    var circuitView = new CircuitView({model:new CircuitModel({id: {{circuit.id|safe}} })});
 
-    // Setup $.ajax to always send an X-CSRFToken header:
+    // Ustawienie $.ajax w celu przesylania naglowka X-CSRFToken:
     var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
-    $(document).ajaxSend(function(e, xhr, settings) {
+    $(document).ajaxSend(function (e, xhr, settings) {
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
     });
 

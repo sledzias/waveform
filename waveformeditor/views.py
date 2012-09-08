@@ -3,7 +3,7 @@ from waveformeditor.models import Circuit
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.shortcuts import render_to_response, get_object_or_404
-import simplejson as json
+
 from django.contrib.auth.decorators import login_required
 @login_required
 def show(request, circuit_id):
